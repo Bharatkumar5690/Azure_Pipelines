@@ -1,0 +1,30 @@
+parameters:
+  - name: Dotnet_Build
+    displayName: Donet Build
+    type: string
+    default: build
+    values: 
+      - build
+      - test
+      - custom
+      - restore
+  - name: Build_path
+    displayName: Build Path
+    type: string
+    default: src/NopCommerce.sln
+steps:
+  - task: DotNetCoreCLI@2
+    displayName: Build nopcommerce
+    inputs:
+      command: "${{ parameters.Dotnet_Build }}"
+      projects: "${{ parameters.Build_path }}"
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: publish
+      publishWebProjects: True
+      arguments: '--configuration $(Build.Repository.LocalPath)/src/ --output $(Build.ArtifactStagingDirectory)'
+      zipAfterPublish: True
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: '$(Build.ArtifactStagingDirectory)' 
+      artifactName: 'myWebsiteName'

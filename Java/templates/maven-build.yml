@@ -1,0 +1,43 @@
+parameters:
+  - name: goal
+    displayName: maven goal
+    type: string
+    default: 'package'
+    values: 
+      - package
+      - clean
+      - install
+      - compile
+  - name: jdkVersion
+    displayName: java version
+    type: string
+    default: '1.17'
+  - name: javapath
+    displayName: java Path
+    type: string
+    default: '/usr/lib/jvm/java-17-openjdk-amd64'
+  - name: mavenpath
+    displayName: maven Path
+    type: string
+    default: '/opt/apache-maven-3.6.3'
+  - name: pathToPublish
+    displayName: Path To Publish
+    type: string
+    default: '$(Build.Repository.LocalPath)/target/spring-petclinic-2.7.3.jar'
+
+steps:
+  - task: Maven@3
+    displayName: Build the Spring petclinic
+    inputs:
+      mavenPOMFile: 'pom.xml'
+      goals: "${{ parameters.goal }}"
+      jdkVersionOption: "${{ parameters.jdkVersion }}"
+      javaHomeOption: Path
+      jdkDirectory: "${{ parameters.javapath }}"
+      mavenVersionSelection: Path
+      mavenDirectory: "${{ parameters.mavenpath }}"
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathToPublish: "${{ parameters.pathToPublish }}"
+      ArtifactName: 'drop'
+      publishLocation: 'Container'

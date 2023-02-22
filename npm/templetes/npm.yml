@@ -1,0 +1,19 @@
+---
+parameters:
+  - name: node_version
+    displayName: node js version
+    type: string
+    default: '16.x'
+  - name: package_build
+    displayName: npm build
+    type: string
+    default: npm run build
+steps:
+- task: NodeTool@0
+  displayName: 'Install Node.js'
+  inputs:
+    versionSpec: "${{ parameters.node_version }}"
+- script: npm install
+  displayName: 'npm install'
+- script: "${{ parameters.package_build }}"
+  displayName: 'npm build'
