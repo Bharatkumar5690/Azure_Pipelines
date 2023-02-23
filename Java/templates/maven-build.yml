@@ -36,8 +36,3 @@ steps:
       jdkDirectory: "${{ parameters.javapath }}"
       mavenVersionSelection: Path
       mavenDirectory: "${{ parameters.mavenpath }}"
-  - task: PublishBuildArtifacts@1
-    inputs:
-      PathToPublish: "${{ parameters.pathToPublish }}"
-      ArtifactName: 'drop'
-      publishLocation: 'Container'
