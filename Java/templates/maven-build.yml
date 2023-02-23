@@ -20,10 +20,6 @@ parameters:
     displayName: maven Path
     type: string
     default: '/opt/apache-maven-3.6.3'
-  - name: pathToPublish
-    displayName: Path To Publish
-    type: string
-    default: '$(Build.Repository.LocalPath)/target/spring-petclinic-2.7.3.jar'
 
 steps:
   - task: Maven@3
